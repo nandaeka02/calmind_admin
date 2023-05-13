@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.tertiaryColor,
+      backgroundColor: Constants.tertiaryColor20,
       appBar: AppBar(
           backgroundColor: Constants.primaryColor,
           elevation: 0,
@@ -53,6 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Constants.secondaryColor,
+        unselectedItemColor: Constants.tertiaryColor,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
@@ -60,15 +63,15 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Beranda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.manage_accounts_rounded),
             label: 'Kelola',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.text_snippet_rounded),
             label: 'Transaksi',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.sms_failed_rounded),
             label: 'Laporan',
           ),
         ],
