@@ -30,9 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.tertiaryColor20,
+      backgroundColor: ConstantColors.tertiaryColor20,
       appBar: AppBar(
-          backgroundColor: Constants.primaryColor,
+          backgroundColor: ConstantColors.primaryColor,
           elevation: 0,
           title: Center(
             child: Text(_selectedIndex == 0
@@ -54,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        selectedItemColor: Constants.secondaryColor,
-        unselectedItemColor: Constants.tertiaryColor,
+        selectedItemColor: ConstantColors.secondaryColor,
+        unselectedItemColor: ConstantColors.tertiaryColor,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(

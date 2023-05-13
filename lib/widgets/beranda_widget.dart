@@ -17,7 +17,7 @@ class BerandaWidget extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 150,
-                  color: Constants.primaryColor,
+                  color: ConstantColors.primaryColor,
                   // decoration: BoxDecoration(color: Colors.blue),
                   child: Stack(
                     children: [

@@ -61,7 +61,7 @@ class TransaksiMasalahWidget extends StatelessWidget {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Constants
+                    primary: ConstantColors
                         .secondaryColor, // Ganti warna sesuai keinginan Anda
                   ),
                 ),
@@ -105,7 +105,7 @@ class TransaksiMasalahWidget extends StatelessWidget {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Constants
+                    primary: ConstantColors
                         .secondaryColor, // Ganti warna sesuai keinginan Anda
                   ),
                 ),
@@ -149,7 +149,7 @@ class TransaksiMasalahWidget extends StatelessWidget {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Constants
+                    primary: ConstantColors
                         .secondaryColor, // Ganti warna sesuai keinginan Anda
                   ),
                 ),
