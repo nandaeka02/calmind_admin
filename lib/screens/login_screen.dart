@@ -1,3 +1,4 @@
+import 'package:calmind_admin/constants/color.dart';
 import 'package:flutter/material.dart';
 import 'package:calmind_admin/screens/home_screen.dart';
 
@@ -77,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: MaterialStateProperty.all<EdgeInsets>(
                       EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                     ),
+                    backgroundColor: MaterialStateProperty.all<Color>(ConstantColors.primaryColor)
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
