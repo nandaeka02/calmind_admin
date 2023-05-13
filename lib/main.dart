@@ -1,3 +1,4 @@
+import 'package:calmind_admin/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(),
+      home: HomeScreen(nPass: '123', nUsername: 'nanda'),
     );
   }
 }
