@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+import '../screens/verifikasi_transaksi_screen.dart';
+
 class TransaksiVerifikasiWidget extends StatelessWidget {
   const TransaksiVerifikasiWidget({super.key});
 
@@ -43,7 +45,14 @@ class TransaksiVerifikasiWidget extends StatelessWidget {
                     ],
                   ),
                   trailing: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => VerifikasiTransaksiScreen(
+                                  userID: '123',
+                                )),
+                      );
+                    },
                     child: Text('Verifikasi'),
                     style: ElevatedButton.styleFrom(
                       primary:

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+import '../screens/masalah_transaksi_screen.dart';
+
 class TransaksiMasalahWidget extends StatelessWidget {
   const TransaksiMasalahWidget({super.key});
 
@@ -44,7 +46,14 @@ class TransaksiMasalahWidget extends StatelessWidget {
                   ],
                 ),
                 trailing: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => MasalahTransaksiScreen(
+                                  userID: '123',
+                                )),
+                      );
+                  },
                   child: RichText(
                     text: TextSpan(
                       children: [
