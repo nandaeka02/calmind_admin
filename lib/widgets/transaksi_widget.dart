@@ -42,7 +42,7 @@ class TransaksiWidget extends StatelessWidget {
                       ),
                       Tab(
                         child: Text(
-                          'Verifikasi',
+                          'Diproses',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),

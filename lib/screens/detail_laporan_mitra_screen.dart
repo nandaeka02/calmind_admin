@@ -1,19 +1,56 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import '../constants/color.dart';
 
 class DetailLaporanMitraScreen extends StatefulWidget {
-  final String userID;
-  const DetailLaporanMitraScreen({Key? key, required this.userID})
+  final String laporanID;
+  const DetailLaporanMitraScreen({Key? key, required this.laporanID})
       : super(key: key);
 
   @override
-  State<DetailLaporanMitraScreen> createState() => _DetailLaporanMitraScreenState();
+  State<DetailLaporanMitraScreen> createState() =>
+      _DetailLaporanMitraScreenState();
 }
 
 class _DetailLaporanMitraScreenState extends State<DetailLaporanMitraScreen> {
+  Map<String, dynamic>? dataLaporan;
+  NumberFormat currencyFormat =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'IDR', decimalDigits: 2);
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    var url = Uri.parse(
+        'http://192.168.100.7:8000/api/admin/laporan/${widget.laporanID}');
+    var response = await http.get(url);
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print("berhasil");
+
+      var jsonResponse = json.decode(response.body);
+      setState(() {
+        dataLaporan = jsonResponse['body'];
+      });
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +70,101 @@ class _DetailLaporanMitraScreenState extends State<DetailLaporanMitraScreen> {
           },
         ),
       ),
-      body: Center(
-        child: Text('Laporan'),
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView(
+                children: [
+                  Center(
+                    child: Text('Identitas', style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Nama Lengkap",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          ": " +
+                              (dataLaporan?['mitra']['first_name']).toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Tanggal Laporan",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          ": " +
+                              ((dataLaporan?['created_at'] != null)
+                                  ? DateFormat('dd MMMM yyyy').format(
+                                      DateTime.parse(
+                                          (dataLaporan?['created_at'])
+                                              .toString()))
+                                  : "N/A"), // Tampilkan "N/A" jika null
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Deskripsi Laporan",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          ": " + (dataLaporan?['description']).toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
       ),
       backgroundColor: ConstantColors.tertiaryColor20,
       bottomNavigationBar: BottomAppBar(

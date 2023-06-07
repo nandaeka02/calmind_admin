@@ -1,122 +1,126 @@
+import 'dart:convert';
+
+import 'package:calmind_admin/constants/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:http/http.dart' as http;
 import '../screens/detail_laporan_mitra_screen.dart';
 
-class LaporanMitraWidget extends StatelessWidget {
+class LaporanMitraWidget extends StatefulWidget {
   const LaporanMitraWidget({super.key});
 
   @override
+  State<LaporanMitraWidget> createState() => _LaporanMitraWidgetState();
+}
+
+class _LaporanMitraWidgetState extends State<LaporanMitraWidget> {
+  List<dynamic> laporans = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> fetchData() async {
+    var url = Uri.parse('http://192.168.100.7:8000/api/admin/laporan/');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      setState(() {
+        laporans = jsonResponse['body'];
+      });
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  }
+
+  Future<void> refreshData() async {
+    await fetchData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
-        Column(
-          children: [
-            SizedBox(
-              height: 24,
-            ),
-            Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Semua Laporan Pengguna',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-            SizedBox(
-              height: 16,
-            ),
-            GestureDetector(
-              child: Card(
-                margin: EdgeInsets.only(right: 0, left: 0),
-                child: ListTile(
-                    title: Text('Tidak Bisa Login Mitra'),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '20 Maret 2023',
-                          style: TextStyle(fontSize: 12),
+        SizedBox(
+          height: 24,
+        ),
+        Center(
+          child: Text(
+            "Data Laporan Mitra",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(
+          height: 24,
+        ),
+        Expanded(
+          child: RefreshIndicator(
+              onRefresh: refreshData,
+              child: ListView.builder(
+                itemCount: laporans.length,
+                itemBuilder: (context, index) {
+                  final laporan = laporans[index];
+                  if (laporan['mitra_id'] == null) {
+                    // Jika status transaksi bukan 'Diproses', maka tidak membuat Card
+                    return SizedBox();
+                  } else {
+                    return Card(
+                      elevation: 4,
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        splashColor: ConstantColors.primarysplashColor,
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailLaporanMitraScreen(
+                                laporanID: laporan['id'].toString(),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: ListTile(
+                            title: Text(
+                              laporan['mitra']['first_name'].toString(),
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            subtitle: Text(
+                              laporan['description'],
+                              style: TextStyle(fontSize: 14),
+                              overflow: TextOverflow
+                                  .ellipsis, // Menyembunyikan teks yang melampaui batas
+                              maxLines: 1,
+                            ),
+                            trailing: Text(
+                              'Lihat Detail',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ),
-                        Text(
-                          'Dr. Jekidermen',
-                          style: TextStyle(fontSize: 12),
-                        )
-                      ],
-                    ),
-                    trailing: Text(
-                      'Detail',
-                      style: TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.bold),
-                    )),
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (_) => DetailLaporanMitraScreen(
-                                  userID: '123',
-                                )),
-                      );
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Card(
-              margin: EdgeInsets.only(right: 0, left: 0),
-              child: ListTile(
-                  title: Text('Transaksi Masuk'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '19 Maret 2023',
-                        style: TextStyle(fontSize: 12),
                       ),
-                      Text(
-                        'Dr. Andi Hermawan',
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ],
-                  ),
-                  trailing: Text(
-                    'Detail',
-                    style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold),
-                  )),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Card(
-              margin: EdgeInsets.only(right: 0, left: 0),
-              child: ListTile(
-                  title: Text('Gangguan Konseling Online'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '8 Maret 2023',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        'Dr. Dian Purnomo',
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ],
-                  ),
-                  trailing: Text(
-                    'Detail',
-                    style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold),
-                  )),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-          ],
+                    );
+                  }
+                },
+              )),
         ),
       ],
     );

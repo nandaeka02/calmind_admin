@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+        body: ListView(
       children: [
         Center(
           child: Image.asset(
@@ -75,25 +75,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                    ),
-                    backgroundColor: MaterialStateProperty.all<Color>(ConstantColors.primaryColor)
-                  ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                      ),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          ConstantColors.primaryColor)),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       // TODO: implement login action
-                      if ((_username == "nanda") && (_password == "123")) {
+                      if ((_username == "admin@gmail.com") &&
+                          (_password == "123")) {
                         //maka berhasil login
                         print('Berhasil Login');
                         //pindah ke page home
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Berhasil login!'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => HomeScreen(
                                     nPass: _password, nUsername: _username)));
                       } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Username atau password salah!'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
                         print('Username atau password salah');
                       }
                     }

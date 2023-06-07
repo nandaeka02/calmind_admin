@@ -1,4 +1,5 @@
 import 'package:calmind_admin/constants/color.dart';
+import 'package:calmind_admin/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/beranda_widget.dart';
 import '../widgets/kelola_widget.dart';
@@ -34,15 +35,26 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
           backgroundColor: ConstantColors.primaryColor,
           elevation: 0,
-          title: Center(
-            child: Text(_selectedIndex == 0
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
+              icon: Icon(Icons.logout),
+            ),
+          ],
+          title: Text(_selectedIndex == 0
                 ? 'Beranda'
                 : _selectedIndex == 1
                     ? 'Kelola'
                     : _selectedIndex == 2
                         ? 'Transaksi'
                         : 'Laporan'),
-          )),
+          ),
       body: IndexedStack(
         index: _selectedIndex,
         children: [

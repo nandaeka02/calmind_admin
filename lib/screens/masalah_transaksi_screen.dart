@@ -5,8 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import '../constants/color.dart';
 
 class MasalahTransaksiScreen extends StatefulWidget {
-  final String userID;
-  const MasalahTransaksiScreen({Key? key, required this.userID})
+  final String transaksiID;
+  const MasalahTransaksiScreen({Key? key, required this.transaksiID})
       : super(key: key);
 
   @override

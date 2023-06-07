@@ -35,13 +35,13 @@ class LaporanWidget extends StatelessWidget {
                     tabs: [
                       Tab(
                         child: Text(
-                          'Semua',
+                          'Pengguna',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
                       Tab(
                         child: Text(
-                          'Verifikasi',
+                          'Mitra',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
